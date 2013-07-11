@@ -1,82 +1,46 @@
 var App = {};
-
-$.resize.delay = 250;
-
-Backbone.Component = Backbone.View.extend({
-  currentUiMode: null,
-  hasUiModes: false,
-  uiModes: {},
-  createResizeEvents: function () {
-    var self = this;
-    if (Object.keys(self.uiModes).length) {
-      self.hasUiModes = true;
-    }
-    if (self.hasUiModes && self.$el.length) {
-      self.$el.resize(function () {
-        self.handleResize($(this).outerWidth(), $(this).outerHeight());
-      });
-    }
-    self.$el.trigger('resize');
-  },
-  handleUiMode: function (mode) {
-    if (this.currentUiMode !== mode) {
-      this.currentUiMode = mode;
-      this.trigger("clear:uiModes");
-      if (typeof this[mode] === "function") {
-        this[mode].call(this, null);
-      }
-    }
-  },
-  _removeUnits: function (numberWithUnits) {
-    return numberWithUnits.replace("px", "")*1;
-  },
-  findUiModeMatch: function (width, height) {
-    var i = null,
-        itMatches,
-        match,
-        self = this,
-        minWidth, maxWidth;
-    
-    for(i in this.uiModes) {
-      if (this.uiModes[i].hasOwnProperty("max-width") && this.uiModes[i].hasOwnProperty("min-width")) {
-        minWidth = self._removeUnits(this.uiModes[i]["min-width"]);
-        maxWidth = self._removeUnits(this.uiModes[i]["max-width"]);
-        if (width >= minWidth && width <= maxWidth) {
-          self.handleUiMode(i);
-        }
-      } else if (this.uiModes[i].hasOwnProperty("max-width")) {
-        maxWidth = self._removeUnits(this.uiModes[i]["max-width"]);
-        if (width <= maxWidth) {
-          self.handleUiMode(i);
-        }
-      } else if (this.uiModes[i].hasOwnProperty("min-width")) {
-        minWidth = self._removeUnits(this.uiModes[i]["min-width"]);
-        if (width >= minWidth) {
-          self.handleUiMode(i);
-        }
-      }
-    }
-  },
-  handleResize: function (width, height) {
-    this.findUiModeMatch(width, height);
-  }
-});
-
+/*
+ * Post Component
+ */
 App.Post = Backbone.Component.extend({
+  /*
+   * Here we can define the dimensions where we want to change the
+   * functionality of our component.
+   */
   uiModes: {
+    /*
+     * 'postSm' is the component's function that will get executed when the
+     * component's width is under 480px
+     */
     "postSm": {
       "max-width": "480px"
     },
+    /*
+     * 'postMd' is the component's function that will get executed when the
+     * component's width is over 481px and under 768px
+     */
     "postMd": {
       "min-width": "481px",
       "max-width": "768px"
     },
+    /*
+     * 'postLg' is the component's function that will get executed when the
+     * component's width is over 769px
+     */
     "postLg": {
       "min-width": "769px"
     }
   },
   initialize: function () {
+    /*
+     * Initializes the resize events for this component
+     */
     this.createResizeEvents();
+    /*
+     * clear:uiModes event gets triggered when a new condition is met.
+     * i.e.: Whenever it changes from postSm to postMd this event is triggered
+     * I'm using it here to reset the component to its default state.
+     */
     this.on("clear:uiModes", this.clearUiMode, this);
   },
   clearUiMode: function () {
@@ -85,17 +49,26 @@ App.Post = Backbone.Component.extend({
   postSm: function () {
     // Add functionality here for when component is small
   },
+  /*
+   * Here you can add visual and behaviour changes to your component
+   * In this case, I'm only adding a class name which changes the way it looks
+   */
   postMd: function () {
-    this.$el.removeClass("post--large").addClass("post--med");
     // Add functionality here for when component is med
+    this.$el.addClass("post--med");
   },
   postLg: function () {
-    this.$el.removeClass("post--med").addClass("post--large");
     // Add functionality here for when component is large
+    this.$el.addClass("post--large");
   }
 });
 
+$.resize.delay = 100;
+
 $(function () {
+  /*
+   * Take each .post in the DOM and create a Post Component with it.
+   */
   $(".post").each(function () {
     var post = new App.Post({ el: $(this) });
   });

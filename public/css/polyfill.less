@@ -1,0 +1,36 @@
+.testimonial {
+  padding: 5px 10px;
+  margin: 0;
+  background: #222;
+  color: #fff;
+  -webkit-transition: all .2s ease;
+  > small {
+    color: lighten(#222, 30%);
+    &:before {
+      content: "— ";
+    }
+  }
+  > p {
+    font-size: 1em;
+    margin: 0;
+  }
+  &[min-width~="385px"] {
+    padding: 10px 20px;
+    background: #428bca;
+    > p {
+      font-size: 1.3em;
+      color: darken(#428bca, 30%);
+    }
+    > small {
+      color: #fff;
+    }
+  }
+  &[min-width~="593px"] {
+    padding: 20px;
+    background: #d9534f;
+    > p {
+      font-size: 1.5em;
+      color: darken(#d9534f, 30%);
+    }
+  }
+}

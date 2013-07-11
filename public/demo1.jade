@@ -1,0 +1,31 @@
+!!!5
+html
+  head
+    title Changing styles using javascript | CSS Element Query Experiments
+    link(rel="stylesheet", href="css/main.css")
+    link(rel="stylesheet", href="css/test.css")
+  body
+    header
+      h1 Changing styles using JavaScript
+      p In this example, we have 3 post components. Using a Backbone Component extension I built, we can define multiple UI Modes that get applied when the component's size changes.
+      p Resize your browser window and you'll see how the components change through 3 different breakpoints depending on their size, not on the viewport's size.
+      p Check out <a href="js/testing.js">testing.js</a> and then <a href="js/backbone.elementquery.js">backbone.elementquery.js</a> to see how it was implemented.
+    article
+      hr
+      .posts
+        .post
+          h3 Lorem ipsum Duis non cillum eu sunt.
+          p Lorem ipsum Officia incididunt ullamco do nulla incididunt fugiat elit ut mollit qui aute eu dolore ex qui sunt dolore cillum officia nostrud cillum ullamco in veniam eiusmod aliqua irure ex elit et veniam ex et.
+        .post(style="max-width:600px")
+          h3 Lorem ipsum Duis non cillum eu sunt.
+          p Lorem ipsum Officia incididunt ullamco do nulla incididunt fugiat elit ut mollit qui aute eu dolore ex qui sunt dolore cillum officia nostrud cillum ullamco in veniam eiusmod aliqua irure ex elit et veniam ex et.
+        .post(style="max-width:50%")
+          h3 Lorem ipsum Duis non cillum eu sunt.
+          p Lorem ipsum Officia incididunt ullamco do nulla incididunt fugiat elit ut mollit qui aute eu dolore ex qui sunt dolore cillum officia nostrud cillum ullamco in veniam eiusmod aliqua irure ex elit et veniam ex et.
+    footer
+    script(src="js/jquery-2.0.2.js")
+    script(src="js/jquery.ba-resize.min.js")
+    script(src="js/underscore.js")
+    script(src="js/backbone.js")
+    script(src="js/backbone.elementquery.js")
+    script(src="js/testing.js")
